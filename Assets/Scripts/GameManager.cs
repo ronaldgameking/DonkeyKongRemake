@@ -24,12 +24,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChanceLives(Int32 diff)
+    public void ChangeLives(Int32 diff)
     {
         Lives += diff;
     }
-    public void ChanceScore(Int32 diff)
+    public void ChangeScore(Int32 diff)
     {
         Score += diff;
+        UIManager.Instance.UpdateScore();
+    }
+    public void ChangeScoreD(Int32 val)
+    {
+        Score = val;
+        UIManager.Instance.UpdateScore();
     }
 }
