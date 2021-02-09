@@ -30,5 +30,4 @@ public class GameManager : MonoBehaviour
     {
         Score += diff;
     }
-
 }
