@@ -8,15 +8,18 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpPower;
 
     private float inputX;
+    private float inputY;
     private Rigidbody2D rb;
 
     private bool onGround;
     private bool canClimb;
+    public bool hasJumped { get; private set; }
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         onGround = true;
+        canClimb = false;
     }
 
     void FixedUpdate()
@@ -28,55 +31,102 @@ public class Player : MonoBehaviour
         if (inputX < 0)
         {
             rb.velocity = new Vector2(-speed, rb.velocity.y);
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                rb.velocity = new Vector2(-speed, rb.velocity.y);
-            }
 
         }
-
         else if (inputX > 0)
         {
             rb.velocity = new Vector2(speed, rb.velocity.y);
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                rb.velocity = new Vector2(speed, rb.velocity.y);
-            }
         }
-        else { rb.velocity = new Vector2(0, rb.velocity.y); }
+        else 
+        { 
+            rb.velocity = new Vector2(0, rb.velocity.y);         
+        }
 
         
     }
 
     private void Update()
     {
-
-        //if (!onGround && rb.velocity.y == 0)
-        //{
-        //    onGround = true;
-        //}
-
-
         if (Input.GetKeyDown(KeyCode.Space) && onGround == true)
         {
             rb.AddForce(transform.up * jumpPower);
-            //onGround = false;
+            hasJumped = true;
+        }
+
+        if (canClimb == true && Input.GetKey(KeyCode.W))
+        {
+            inputY = Input.GetAxis("Vertical");
+            rb.velocity = new Vector2(rb.position.x, inputY + speed);
+            hasJumped = false;
+        }
+        else if (canClimb == true && Input.GetKey(KeyCode.S))
+        {
+            inputY = Input.GetAxis("Vertical");
+            rb.velocity = new Vector2(rb.position.x, inputY - speed);
+            hasJumped = false;
+        }
+
+        if (canClimb == true && Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+        {
+            rb.gravityScale = 0;
+            hasJumped = false;
+        }
+        else
+        {
+            rb.gravityScale = 1;
+        }
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            rb.velocity = Vector3.zero;
+            rb.isKinematic = true;
+        }
+        else
+        {
+            rb.isKinematic = false;
+        }
+
+        if (canClimb == true && !Input.GetKey(KeyCode.W))
+        {
+            if (!Input.GetKey(KeyCode.S) && hasJumped == false)
+            {
+                rb.velocity = Vector3.zero;
+                rb.isKinematic = true;
+            }
+        }
+        else
+        {
+            rb.isKinematic = false;
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public bool GetCanClimb()
     {
-       if (collision.gameObject.CompareTag("Floor"))
-        {
-            onGround = true;
-        }
+        return canClimb;
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    public bool GetOnGround()
     {
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-            onGround = false;
-        }
+        return onGround;
+    }
+
+    public bool GetHasJumped()
+    {
+        return hasJumped;
+    }
+
+    public void SetCanClimb(bool climbState)
+    {
+        canClimb = climbState;
+    }
+
+    public void SetOnGround(bool groundState)
+    {
+        onGround = groundState;
+    }
+
+    public void SetHasJumped(bool jumpedState)
+    {
+        hasJumped = jumpedState;
     }
 }
