@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public Int32 Score { get; private set; } = 0;
     public Int32 Lives { get; private set; } = 3;
 
-    void Start()
+    void Awake()
     {
         if (Instance == null)
         {
