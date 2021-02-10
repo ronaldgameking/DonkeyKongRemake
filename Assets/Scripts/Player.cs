@@ -11,8 +11,8 @@ public class Player : MonoBehaviour
     private float inputY;
     private Rigidbody2D rb;
 
-    private bool onGround;
-    private bool canClimb;
+    public bool onGround { get; private set; }
+    public bool canClimb { get; private set; }
     public bool hasJumped { get; private set; }
 
     void Start()
@@ -100,19 +100,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    public bool GetCanClimb()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        return canClimb;
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            onGround = true;
+        }
     }
 
-    public bool GetOnGround()
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        return onGround;
-    }
-
-    public bool GetHasJumped()
-    {
-        return hasJumped;
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            onGround = false;
+        }
     }
 
     public void SetCanClimb(bool climbState)

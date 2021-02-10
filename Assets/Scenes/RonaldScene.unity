@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 164280317}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -645,6 +645,16 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.24
       objectReference: {fileID: 0}
+    - target: {fileID: 5712058956958969932, guid: 147287289fee1664694c1c66f95145ff,
+        type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5712058956958969933, guid: 147287289fee1664694c1c66f95145ff,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5712058956958969935, guid: 147287289fee1664694c1c66f95145ff,
         type: 3}
       propertyPath: m_Name
@@ -668,7 +678,7 @@ PrefabInstance:
     - target: {fileID: 5712058956958969938, guid: 147287289fee1664694c1c66f95145ff,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5712058956958969938, guid: 147287289fee1664694c1c66f95145ff,
         type: 3}
@@ -708,7 +718,7 @@ PrefabInstance:
     - target: {fileID: 5712058956958969939, guid: 147287289fee1664694c1c66f95145ff,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 147287289fee1664694c1c66f95145ff, type: 3}
