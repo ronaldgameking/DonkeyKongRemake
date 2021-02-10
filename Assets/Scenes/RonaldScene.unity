@@ -625,15 +625,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5712058956958969932, guid: 147287289fee1664694c1c66f95145ff,
+    - target: {fileID: 3570694843622133009, guid: 147287289fee1664694c1c66f95145ff,
         type: 3}
-      propertyPath: m_GravityScale
+      propertyPath: m_Radius
+      value: 0.2561214
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570694843622133009, guid: 147287289fee1664694c1c66f95145ff,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5712058956958969933, guid: 147287289fee1664694c1c66f95145ff,
+    - target: {fileID: 3570694843622133009, guid: 147287289fee1664694c1c66f95145ff,
         type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570694843622133009, guid: 147287289fee1664694c1c66f95145ff,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.24
       objectReference: {fileID: 0}
     - target: {fileID: 5712058956958969935, guid: 147287289fee1664694c1c66f95145ff,
         type: 3}
@@ -693,6 +703,11 @@ PrefabInstance:
     - target: {fileID: 5712058956958969938, guid: 147287289fee1664694c1c66f95145ff,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5712058956958969939, guid: 147287289fee1664694c1c66f95145ff,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

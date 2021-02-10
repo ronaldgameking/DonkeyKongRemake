@@ -63,4 +63,20 @@ public class Player : MonoBehaviour
             //onGround = false;
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+       if (collision.gameObject.CompareTag("Floor"))
+        {
+            onGround = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            onGround = false;
+        }
+    }
 }
