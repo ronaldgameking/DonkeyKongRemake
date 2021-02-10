@@ -2,10 +2,6 @@
 using UnityEngine;
 using UnityEditor;
 
-public class MyObject : ScriptableObject
-{
-    public int myInt = 42;
-}
 [CustomEditor(typeof(GameManager))]
 public class GameMEditor : Editor
 {
