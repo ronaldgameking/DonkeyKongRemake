@@ -28,11 +28,17 @@ public class GameMEditor : Editor
         if (!Application.isPlaying || GameManager.Instance == null) GUI.enabled = false;
         scoreInput = EditorGUILayout.IntField(scoreInput);
         //if (!Application.isPlaying) GUI.enabled = false;
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Apply score"))
         {
             GameManager.Instance.ChangeScoreD(scoreInput);
         }
+        if (GUILayout.Button("Add score"))
+        {
+            GameManager.Instance.ChangeScore(scoreInput);
+        }
+        EditorGUILayout.EndHorizontal();
         GUI.enabled = true;
-        EditorGUILayout.EndHorizontal();    
     }
 }

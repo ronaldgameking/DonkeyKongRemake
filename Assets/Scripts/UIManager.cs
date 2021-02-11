@@ -23,6 +23,6 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScore()
     {
-        scoreText.text = GameManager.Instance.Score.ToString("X");
+        scoreText.text = GameManager.Instance.Score.ToString("D5");
     }
 }
