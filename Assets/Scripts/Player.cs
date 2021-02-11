@@ -6,18 +6,22 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
+    [SerializeField] private GameObject powerZone;
 
     private float inputX;
     private float inputY;
+    private float powerUpTime = 0f;
     private Rigidbody2D rb;
 
     public bool onGround { get; private set; }
     public bool canClimb { get; private set; }
     public bool hasJumped { get; private set; }
+    public bool hasPowerUp { get; private set; }
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        powerZone.SetActive(false);
         onGround = true;
         canClimb = false;
     }
@@ -37,12 +41,10 @@ public class Player : MonoBehaviour
         {
             rb.velocity = new Vector2(speed, rb.velocity.y);
         }
-        else 
-        { 
-            rb.velocity = new Vector2(0, rb.velocity.y);         
+        else
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
-
-        
     }
 
     private void Update()
@@ -98,6 +100,26 @@ public class Player : MonoBehaviour
         {
             rb.isKinematic = false;
         }
+
+        if (powerUpTime > 0f)
+        {
+            powerUpTime = powerUpTime - Time.deltaTime;
+            hasPowerUp = true;
+        }
+        else
+        {
+            powerUpTime = 0f;
+            hasPowerUp = false;
+        }
+
+        if (hasPowerUp == true)
+        {
+            powerZone.SetActive(true);
+        }
+        else
+        {
+            powerZone.SetActive(false);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -129,5 +151,15 @@ public class Player : MonoBehaviour
     public void SetHasJumped(bool jumpedState)
     {
         hasJumped = jumpedState;
+    }
+
+    public void SetHasPowerUp(bool powerUpState)
+    {
+        hasPowerUp = powerUpState;
+    }
+
+    public void SetPowerUpTime(float powerTime)
+    {
+        powerUpTime = powerTime;
     }
 }

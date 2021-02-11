@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ladder : MonoBehaviour
+public class PowerUp : MonoBehaviour
 {
     private Player player;
-
     void Start()
     {
         player = FindObjectOfType<Player>();
@@ -13,11 +12,10 @@ public class Ladder : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        player.SetCanClimb(true);
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        player.SetCanClimb(false);
+        if (collision.CompareTag("Player"))
+        {
+            player.SetPowerUpTime(10f);
+            Destroy(gameObject);
+        }
     }
 }
