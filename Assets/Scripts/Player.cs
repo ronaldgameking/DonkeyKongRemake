@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameManager.Instance.isPaused) return;
         inputX = Input.GetAxis("Horizontal");
         Vector3 movement = new Vector3(inputX, 0);
         rb.AddForce(movement * speed);
@@ -49,6 +50,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.isPaused) return;
         if (Input.GetKeyDown(KeyCode.Space) && onGround == true)
         {
             rb.AddForce(transform.up * jumpPower);
