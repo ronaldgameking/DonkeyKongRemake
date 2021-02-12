@@ -8,10 +8,12 @@ public class GameManager : MonoBehaviour
     //to prevent use of FindObjectOfType<> and GameObject.Find()
     public static GameManager Instance;
 
+    //Stats
     public Int32 Score { get; private set; } = 0;
     public Int32 Lives { get; private set; } = 3;
+    public Int32 gamesPlayed { get; private set; } = 0;
 
-    public bool isPaused = false;
+    [ReadOnly] public bool isPaused = false;
 
     void Awake()
     {
@@ -29,7 +31,16 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (UIManager.Instance.isTransitioning) return;
             isPaused = !isPaused;
+            if (isPaused)
+            {
+                UIManager.Instance.DoPauseTransition();
+            }
+            else
+            {
+                UIManager.Instance.DoResumeTransition();
+            }
         }
     }
 
