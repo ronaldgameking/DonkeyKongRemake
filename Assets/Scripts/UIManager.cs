@@ -9,13 +9,14 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     public TextMeshProUGUI scoreText;
-
+    public TextMeshProUGUI highScoreText;
     public GameObject pauseGameObj;
     public Image pauseImage;
 
     public int targetAlpha = 20;
-
     public bool isTransitioning { get; private set; } = false;
+
+    private bool instanceLost;
 
     // Start is called before the first frame update
     void Start()
@@ -30,10 +31,26 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Instance == null && !instanceLost)
+        {
+            Debug.LogWarning("Instance not set, did the editor Reload?");
+            instanceLost = true;
+            return;
+        }
+    }
+
     public void UpdateScore()
     {
         scoreText.text = GameManager.Instance.Score.ToString("D5");
     }
+
+    public void UpdateHighScore()
+    {
+        highScoreText.text = GameManager.Instance.HighScore.ToString("D5");
+    }
+
 
     public void DoPauseTransition()
     {
@@ -41,7 +58,7 @@ public class UIManager : MonoBehaviour
     }
 
     public IEnumerator PauseTransition()
-    {
+    {   
         isTransitioning = true;
         for (int i = 0; i < targetAlpha; i++)
         {
@@ -67,7 +84,6 @@ public class UIManager : MonoBehaviour
             Color transitionColor = pauseImage.color;
             transitionColor.a -= 0.01f * Time.deltaTime * 150;
             pauseImage.color = transitionColor;
-            PauseMenu.Instance.FadeChildObj(-0.01f);
             yield return new WaitForSeconds(0.001f * Time.deltaTime * 100);    
         }
         PauseMenu.Instance.FadeChildObj(-0.01f);

@@ -13,22 +13,24 @@ public class Player : MonoBehaviour
     private float powerUpTime = 0f;
     private Rigidbody2D rb;
 
-    public bool onGround { get; private set; }
-    public bool canClimb { get; private set; }
+    public bool onGround { get; private set; } = true;
+    public bool canClimb { get; private set; } = false;
     public bool hasJumped { get; private set; }
     public bool hasPowerUp { get; private set; }
+    public bool canGoTrough { get; private set; } = false;
+
+    [Header("haha debugging go brrr")]
+    public bool creativeFly = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         powerZone.SetActive(false);
-        onGround = true;
-        canClimb = false;
     }
 
     void FixedUpdate()
     {
-        if (GameManager.Instance.isPaused) return;
+        //if (GameManager.Instance.isPaused) return;
         inputX = Input.GetAxis("Horizontal");
         Vector3 movement = new Vector3(inputX, 0);
         rb.AddForce(movement * speed);
@@ -50,36 +52,69 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.isPaused) return;
-        if (Input.GetKeyDown(KeyCode.Space) && onGround == true)
+        //if (GameManager.Instance.isPaused) return;
+        if (!creativeFly)
         {
-            rb.AddForce(transform.up * jumpPower);
-            hasJumped = true;
-        }
+            if (Input.GetKeyDown(KeyCode.Space) && onGround == true)
+            {
+                rb.AddForce(transform.up * jumpPower);
+                hasJumped = true;
+            }
 
-        if (canClimb == true && Input.GetKey(KeyCode.W))
-        {
-            inputY = Input.GetAxis("Vertical");
-            rb.velocity = new Vector2(rb.position.x, inputY + speed);
-            hasJumped = false;
-        }
-        else if (canClimb == true && Input.GetKey(KeyCode.S))
-        {
-            inputY = Input.GetAxis("Vertical");
-            rb.velocity = new Vector2(rb.position.x, inputY - speed);
-            hasJumped = false;
-        }
+            if (canClimb == true && Input.GetKey(KeyCode.W))
+            {
+                inputY = Input.GetAxis("Vertical");
+                rb.velocity = new Vector2(rb.position.x, inputY + speed);
+                hasJumped = false;
+            }
+            else if (canClimb == true && Input.GetKey(KeyCode.S))
+            {
+                inputY = Input.GetAxis("Vertical");
+                rb.velocity = new Vector2(rb.position.x, inputY - speed);
+                hasJumped = false;
+            }
 
-        if (canClimb == true && Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
-        {
-            rb.gravityScale = 0;
-            hasJumped = false;
+            if (canClimb == true && Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+            {
+                rb.gravityScale = 0;
+                hasJumped = false;
+            }
+            else
+            {
+                rb.gravityScale = 1;
+            }
         }
         else
         {
-            rb.gravityScale = 1;
-        }
+            if (Input.GetKeyDown(KeyCode.Space) && onGround == true)
+            {
+                rb.AddForce(transform.up * jumpPower);
+                hasJumped = true;
+            }
 
+            if (Input.GetKey(KeyCode.W))
+            {
+                inputY = Input.GetAxis("Vertical");
+                rb.velocity = new Vector2(rb.position.x, inputY + speed);
+                hasJumped = false;
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                inputY = Input.GetAxis("Vertical");
+                rb.velocity = new Vector2(rb.position.x, inputY - speed);
+                hasJumped = false;
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+            }
+
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+            {
+                rb.gravityScale = 0;
+                hasJumped = false;
+            }
+        }
         if (Input.GetKey(KeyCode.Q))
         {
             rb.velocity = Vector3.zero;
@@ -89,6 +124,7 @@ public class Player : MonoBehaviour
         {
             rb.isKinematic = false;
         }
+
 
         if (canClimb == true && !Input.GetKey(KeyCode.W))
         {
@@ -121,6 +157,15 @@ public class Player : MonoBehaviour
         else
         {
             powerZone.SetActive(false);
+        }
+
+        if (canClimb == true)
+        {
+            canGoTrough = true;
+        }
+        else
+        {
+            canGoTrough = false;
         }
     }
 
