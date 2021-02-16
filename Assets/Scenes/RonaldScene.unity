@@ -3694,7 +3694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1463290332}
-  highScoreText: {fileID: 0}
+  highScoreText: {fileID: 277319485}
   pauseGameObj: {fileID: 1710290179}
   pauseImage: {fileID: 1710290181}
   targetAlpha: 60

@@ -26,11 +26,24 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            HighScore = PlayerPrefs.GetInt(nameof(HighScore), 0);
         }
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        HighScore = PlayerPrefs.GetInt(nameof(HighScore), 0);
+
+        if (UIManager.Instance == null)
+        {
+            FindObjectOfType<UIManager>().UpdateHighScore();
+        }
+        else
+        {
+            UIManager.Instance.UpdateHighScore();
         }
     }
 
@@ -64,7 +77,13 @@ public class GameManager : MonoBehaviour
     {
         if (Score > HighScore)
         {
+            HighScore = Score;
             PlayerPrefs.SetInt(nameof(HighScore), HighScore);
+            if (PlayerPrefs.HasKey(nameof(HighScore)))
+            {
+                Debug.LogError("Failed saving score");
+            }
+            UIManager.Instance.UpdateHighScore();
         }
     }
 
@@ -75,11 +94,14 @@ public class GameManager : MonoBehaviour
     public void ChangeScore(Int32 diff)
     {
         Score += diff;
+        HighScoreManagment();
         UIManager.Instance.UpdateScore();
+
     }
     public void ChangeScoreD(Int32 val)
     {
         Score = val;
+        HighScoreManagment();
         UIManager.Instance.UpdateScore();
     }
 }

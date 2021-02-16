@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     private bool instanceLost;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (Instance == null)
         {
