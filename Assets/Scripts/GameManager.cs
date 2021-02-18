@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using MyNumerics;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,18 +12,31 @@ public class GameManager : MonoBehaviour
     public DKDJ donkey;
 
     //Stats
-    public Int32 Score { get; private set; } = 0;
-    public Int32 HighScore { get; private set; } = 0;
+    public Int64 Score { get; private set; } = 0;
+    public Int64 HighScore { get; private set; } = 0;
     public Int32 Lives { get; private set; } = 3;
     public Int32 gamesPlayed { get; private set; } = 0;
 
+    //PlayerPrefs compliant
+    public Int32 HighScoreA { get; private set; } = 0;
+    public Int32 HighScoreB { get; private set; } = 0;
+
     [ReadOnly] public bool isPaused = false;
+    [Range(0,4)]
+    public float timeSpeed = 1f;
 
     //Warnings
     bool instanceLost = false;
 
     void Awake()
     {
+        Int64 gh = (Int64)Int32.MaxValue * 2;
+        Debug.Log(string.Format("Original Long: {0}", gh));
+        Int32[] gi = IntegerUtil.long2doubleInt(gh);
+        Debug.Log(string.Format("Long in int: {0}, {1}", gi[0], gi[1]));
+        Int64 gj = IntegerUtil.doubleInt2Long(gi[0], gi[1]);
+        Debug.Log(string.Format("Reconstructed Long: {0}", gj));
+
         if (Instance == null)
         {
             Instance = this;
@@ -35,7 +49,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        HighScore = PlayerPrefs.GetInt(nameof(HighScore), 0);
+        HighScore = PlayerPrefs.GetInt("HighScoreA", 0);
+        HighScore = PlayerPrefs.GetInt("HighScoreB", 0);
 
         if (UIManager.Instance == null)
         {
@@ -49,6 +64,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        Time.timeScale = timeSpeed;
         if (Instance == null && !instanceLost)
         {
             Debug.LogWarning("Instance not set, did the editor Reload?");
@@ -78,10 +94,16 @@ public class GameManager : MonoBehaviour
         if (Score > HighScore)
         {
             HighScore = Score;
-            PlayerPrefs.SetInt(nameof(HighScore), HighScore);
-            if (PlayerPrefs.HasKey(nameof(HighScore)))
+            Int32[] HighScoreInt = IntegerUtil.long2doubleInt(HighScore);
+            PlayerPrefs.SetInt("HighScoreA", HighScoreInt[0]);
+            PlayerPrefs.SetInt("HighScoreB", HighScoreInt[1]);
+            if (!PlayerPrefs.HasKey("HighScoreA"))
             {
-                Debug.LogError("Failed saving score");
+                Debug.LogError("Failed saving score Fragment A");
+            }
+            if (!PlayerPrefs.HasKey("HighScoreB"))
+            {
+                Debug.LogError("Failed saving score Fragment A");
             }
             UIManager.Instance.UpdateHighScore();
         }
@@ -91,17 +113,24 @@ public class GameManager : MonoBehaviour
     {
         Lives += diff;
     }
-    public void ChangeScore(Int32 diff)
+    public void ChangeScore(Int64 diff)
     {
         Score += diff;
         HighScoreManagment();
         UIManager.Instance.UpdateScore();
 
-    }
-    public void ChangeScoreD(Int32 val)
+    }   
+    public void ChangeScoreD(Int64 val)
     {
         Score = val;
         HighScoreManagment();
         UIManager.Instance.UpdateScore();
+    }
+
+    public void ResetLoaderBoard()
+    {
+        HighScore = 0;
+        HighScoreA = 0;
+        HighScoreB = 0;
     }
 }

@@ -19,9 +19,6 @@ public class Player : MonoBehaviour
     public bool hasPowerUp { get; private set; }
     public bool canGoTrough { get; private set; } = false;
 
-    [Header("haha debugging go brrr")]
-    public bool creativeFly = false;
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,7 +27,12 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        //if (GameManager.Instance.isPaused) return;
+        if (GameManager.Instance.isPaused)
+        {
+            rb.velocity = Vector3.zero;
+            return;
+        }
+
         inputX = Input.GetAxis("Horizontal");
         Vector3 movement = new Vector3(inputX, 0);
         rb.AddForce(movement * speed);
@@ -52,69 +54,41 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        //if (GameManager.Instance.isPaused) return;
-        if (!creativeFly)
+        if (GameManager.Instance.isPaused)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && onGround == true)
-            {
-                rb.AddForce(transform.up * jumpPower);
-                hasJumped = true;
-            }
+            rb.velocity = Vector3.zero;
+            return;
+        }
 
-            if (canClimb == true && Input.GetKey(KeyCode.W))
-            {
-                inputY = Input.GetAxis("Vertical");
-                rb.velocity = new Vector2(rb.position.x, inputY + speed);
-                hasJumped = false;
-            }
-            else if (canClimb == true && Input.GetKey(KeyCode.S))
-            {
-                inputY = Input.GetAxis("Vertical");
-                rb.velocity = new Vector2(rb.position.x, inputY - speed);
-                hasJumped = false;
-            }
+        if (Input.GetKeyDown(KeyCode.Space) && onGround == true)
+        {
+            rb.AddForce(transform.up * jumpPower);
+            hasJumped = true;
+        }
 
-            if (canClimb == true && Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
-            {
-                rb.gravityScale = 0;
-                hasJumped = false;
-            }
-            else
-            {
-                rb.gravityScale = 1;
-            }
+        if (canClimb == true && Input.GetKey(KeyCode.W))
+        {
+            inputY = Input.GetAxis("Vertical");
+            rb.velocity = new Vector2(rb.position.x, inputY + speed);
+            hasJumped = false;
+        }
+        else if (canClimb == true && Input.GetKey(KeyCode.S))
+        {
+            inputY = Input.GetAxis("Vertical");
+            rb.velocity = new Vector2(rb.position.x, inputY - speed);
+            hasJumped = false;
+        }
+
+        if (canClimb == true && Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+        {
+            rb.gravityScale = 0;
+            hasJumped = false;
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Space) && onGround == true)
-            {
-                rb.AddForce(transform.up * jumpPower);
-                hasJumped = true;
-            }
-
-            if (Input.GetKey(KeyCode.W))
-            {
-                inputY = Input.GetAxis("Vertical");
-                rb.velocity = new Vector2(rb.position.x, inputY + speed);
-                hasJumped = false;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                inputY = Input.GetAxis("Vertical");
-                rb.velocity = new Vector2(rb.position.x, inputY - speed);
-                hasJumped = false;
-            }
-            else
-            {
-                rb.velocity = Vector2.zero;
-            }
-
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
-            {
-                rb.gravityScale = 0;
-                hasJumped = false;
-            }
+            rb.gravityScale = 1;
         }
+
         if (Input.GetKey(KeyCode.Q))
         {
             rb.velocity = Vector3.zero;
@@ -124,7 +98,6 @@ public class Player : MonoBehaviour
         {
             rb.isKinematic = false;
         }
-
 
         if (canClimb == true && !Input.GetKey(KeyCode.W))
         {
