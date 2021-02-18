@@ -2,21 +2,45 @@
 
 namespace MyNumerics
 {
+    /// <summary>
+    /// Integer conversion class
+    /// </summary>
     public class IntegerUtil
     {
-        public static long doubleInt2Long(int a1, int a2)
+        /// <summary>
+        /// Convert 2 Int32 to 1 Int64 (long)
+        /// </summary>
+        /// <param name="a1"></param>
+        /// <param name="a2"></param>
+        /// <returns>Int64</returns>
+        public static Int64 DoubleInt2Long(Int32 a1, Int32 a2)
         {
-            long b = a2;
+            Int64 b = a2;
             b = b << 32;
-            b = b | (uint)a1;
+            b = b | (UInt32)a1;
             return b;
         }
 
-        public static int[] long2doubleInt(long a)
+        public static int[] Long2doubleInt(Int64 a)
         {
-            int a1 = (int)(a & uint.MaxValue);
-            int a2 = (int)(a >> 32);
-            return new int[] { a1, a2 };
+            Int32 a1 = (Int32)(a & UInt32.MaxValue);
+            Int32 a2 = (Int32)(a >> 32);
+            return new Int32[] { a1, a2 };
+        }
+
+        public static Int32 DoubleShort2Int(Int16 a1, Int16 a2)
+        {
+            Int32 b = a2;
+            b = b << 16;
+            b = b | (UInt16)a1;
+            return b;
+        }
+
+        public static Int16[] Int2doublrShort(Int32 a)
+        {
+            Int16 a1 = (Int16)(a & UInt16.MaxValue);
+            Int16 a2 = (Int16)(a >> 16);
+            return new Int16[] { a1, a2 };
         }
     }
 }
