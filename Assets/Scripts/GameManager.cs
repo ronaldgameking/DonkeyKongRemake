@@ -30,12 +30,24 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        //Testing long reconstruction
         Int64 gh = (Int64)Int32.MaxValue * 2;
         Debug.Log(string.Format("Original Long: {0}", gh));
-        Int32[] gi = IntegerUtil.long2doubleInt(gh);
+        Int32[] gi = IntegerUtil.Long2doubleInt(gh);
         Debug.Log(string.Format("Long in int: {0}, {1}", gi[0], gi[1]));
-        Int64 gj = IntegerUtil.doubleInt2Long(gi[0], gi[1]);
+        Int64 gj = IntegerUtil.DoubleInt2Long(gi[0], gi[1]);
         Debug.Log(string.Format("Reconstructed Long: {0}", gj));
+        //END
+
+        //Testing int reconstruction
+        Int32 hh = (Int32)Int16.MaxValue * 2;
+        Debug.Log(string.Format("Original Int32: {0}", hh));
+        Int16[] hi = IntegerUtil.Int2doublrShort(hh);
+        Debug.Log(string.Format("Int32 in Short: {0}, {1}", hi[0], hi[1]));
+        Int32 hj = IntegerUtil.DoubleShort2Int(hi[0], hi[1]);
+        Debug.Log(string.Format("Reconstructed Int32: {0}", hj));
+        //END
+
 
         if (Instance == null)
         {
@@ -94,7 +106,7 @@ public class GameManager : MonoBehaviour
         if (Score > HighScore)
         {
             HighScore = Score;
-            Int32[] HighScoreInt = IntegerUtil.long2doubleInt(HighScore);
+            Int32[] HighScoreInt = IntegerUtil.Long2doubleInt(HighScore);
             PlayerPrefs.SetInt("HighScoreA", HighScoreInt[0]);
             PlayerPrefs.SetInt("HighScoreB", HighScoreInt[1]);
             if (!PlayerPrefs.HasKey("HighScoreA"))
