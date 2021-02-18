@@ -22,9 +22,18 @@ public class AnimationFunctions : MonoBehaviour
 
     public void z_ShowSettingButtons()
     {
+        Debug.Log("Showing setting buttons");
         foreach (GameObject go in settingOptions)
         {
             go.SetActive(true);
+        }
+    }
+    public void z_HideSettingButtons()
+    {
+        Debug.Log("Hiding setting buttons");
+        foreach (GameObject go in settingOptions)
+        {
+            go.SetActive(false);
         }
     }
 }
