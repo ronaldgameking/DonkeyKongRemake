@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        //EVERYTHING IN THIS REGION IS FOR TESTING PURPOSES
+        #region Testing
+
         //Testing long reconstruction
         Int64 gh = (Int64)Int32.MaxValue * 2;
         Debug.Log(string.Format("Original Long: {0}", gh));
@@ -47,7 +50,7 @@ public class GameManager : MonoBehaviour
         Int32 hj = IntegerUtil.DoubleShort2Int(hi[0], hi[1]);
         Debug.Log(string.Format("Reconstructed Int32: {0}", hj));
         //END
-
+        #endregion
 
         if (Instance == null)
         {

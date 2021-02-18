@@ -5,7 +5,6 @@ using UnityEngine;
 public class AnimationFunctions : MonoBehaviour
 {
     public Animator menuAnim;
-    public Int16 reg_stage = 0;
 
     public GameObject[] settingOptions;
 
