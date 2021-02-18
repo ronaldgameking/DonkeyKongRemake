@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 public class ButtonDriver : MonoBehaviour
 {
     public Animator menuAnim;
-    public GameObject[] settingOptions;
 
     public void PlayGame()
     {
@@ -52,16 +51,11 @@ public class ButtonDriver : MonoBehaviour
 
     public void ResetHighScore()
     {
-
+        PlayerPrefs.DeleteKey("HighScoreA");
+        PlayerPrefs.DeleteKey("HighScoreB");
     }
 
-    public void ShowSettingButtons()
-    {
-        foreach (GameObject go in settingOptions)
-        {
-            go.SetActive(true);
-        }
-    }
+    
 
     
 }

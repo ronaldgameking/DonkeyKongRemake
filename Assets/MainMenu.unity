@@ -776,6 +776,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuAnim: {fileID: 513802210}
+  reg_stage: 0
+  settingOptions:
+  - {fileID: 337876081}
 --- !u!1 &519170295
 GameObject:
   m_ObjectHideFlags: 0
